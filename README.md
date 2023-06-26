@@ -98,8 +98,6 @@ As a result there is no Python code in here that was originally needed for the (
 
 ## Links
 
-[![Build Status](https://travis-ci.org/gdcc/dv-metrics.svg?branch=master)](https://travis-ci.org/gdcc/dv-metrics)
-
 [Contributing Guide](CONTRIBUTING.md)
 
 [Metrics API](http://guides.dataverse.org/en/latest/api/metrics.html)
