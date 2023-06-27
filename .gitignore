@@ -1,6 +1,1 @@
 config.json
-cache
-*.pyc
-*.tsv
-contributors.json
-/.project

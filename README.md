@@ -1,15 +1,25 @@
-# dataverse-metrics
+# dv-metrics
 
 ## Introduction
 
-dataverse-metrics report metrics in a web page
+dv-metrics report metrics in a web page
 
-It is an installation-level metrics app (v5.1+) that can show metrics for a Dataverse instance or for any sub-Dataverse within that instance
+It is an installation-level metrics app (v5.1+) that can show metrics for a Dataverse instance 
+or for any sub-Dataverse within that instance
 
 
-This installation-level app leverages enhancements to the Dataverse Metrics API introduced in v5.1 to provide more detailed information about a single installation of Dataverse. It adds additional graphs showing the distribution of files by content type, 'Make Data Counts' metrics, and the number of 'unique downloaders' per dataset. All of these metrics can be displayed for the entire repository or for any sub-Dataverse within the repository, with the selection possible via a tree widget showing the overall structure of the repository, or programatically by adding a query parameter for the specific sub-Dataverse to the URL for the app. All outputs are also available in comma-separated-value (CSV) format via download buttons associated with each graph. This app does not use any local cache and doesn't require python or a cron job to run.
+This installation-level app leverages enhancements to the Dataverse Metrics API introduced in v5.1 
+to provide more detailed information about a single installation of Dataverse. 
+It adds additional graphs showing the distribution of files by content type, 'Make Data Counts' metrics, 
+and the number of 'unique downloaders' per dataset. 
+All of these metrics can be displayed for the entire repository or for any sub-Dataverse within the repository, 
+with the selection possible via a tree widget showing the overall structure of the repository, 
+or programmatically by adding a query parameter for the specific sub-Dataverse to the URL for the app. 
+All outputs are also available in comma-separated-value (CSV) format via download buttons associated with each graph. 
+This app does not use any local cache and doesn't require Python or a cron job to run.
 
-The 'App' report metrics only for published content and hence they do not require any login or Dataverse credentials to access.
+This app report metrics only for published content and hence it does not require any login or Dataverse credentials to access.
+More detail about the Dataverse metrics can be found in the guides: [Metrics API](http://guides.dataverse.org/en/latest/api/metrics.html).
 
 ## Requirements
 
@@ -20,37 +30,55 @@ The 'App' report metrics only for published content and hence they do not requir
 
 ### Put code into place
 
-Change to the parent directory for where you will install dataverse-metrics. `/var/www/html` is the default "DocumentRoot" for Apache on CentOS (defined in `/etc/httpd/conf/httpd.conf`) and is suggested as a place to install dataverse-metrics, but you are welcome to install it wherever you want and use any server you want.
+Change to the parent directory for where you will install dv-metrics. `/var/www/html` is the default "DocumentRoot" 
+for Apache on CentOS (defined in `/etc/httpd/conf/httpd.conf`) and is suggested as a place to install dv-metrics, but you are welcome to install it 
+wherever you want and use any server you want.
 
     cd /var/www/html
 
 Clone the repo:
 
-    git clone https://github.com/IQSS/dataverse-metrics.git
+    git clone https://github.com/gdcc/dv-metrics.git
 
-Change to the directory you just created by cloning the repo:
+Or you can also download the latest code and unarchive it:
 
-    cd dataverse-metrics
+    wget https://github.com/gdcc/dv-metrics/archive/refs/heads/master.zip
+    unzip master.zip
+    mv dv-metrics-master dv-metrics
+
+__Note__: Downloading the latest release would be preferable if you are not developing on the code or if you install it on a production server.
+
 
 ### Configuration
 
+Change to the directory you just created:
+
+    cd dv-metrics
+
 Copy `config.local.json.sample` to `config.local.json` and edit the following values:
 
-- `installationURL` - the URL for the Dataverse instance, e.g. "https://demo.dataverse.edu", can be "" if the app is deployed on the same server as Dataverse itself
+- `installationURL` - the URL for the Dataverse instance, e.g. "https://demo.dataverse.edu", 
+   can be "" if the app is deployed on the same server as Dataverse itself
 - `installationName` - the name of the Dataverse Repository, e.g. "Harvard Dataverse"
 
 and optionally:
 
--  `dataverseTerm` - defaults to "Dataverse" - used in the app to refer to sub-dataverses, e.g. using "Collection" would result in the app showing "Click a sub-Collection name to see its metrics".
--  `maxBars` - default is 100 - the maximum number of datasets to show in the uniquedownloads by PID display. That graph is ordered by number of counts, so setting the maxBars limits the graph to the 'top <N>' results (for visibility, the CSV download will contain the full results)
+- `dataverseTerm` - defaults to "Dataverse" - used in the app to refer to sub-dataverses, 
+   e.g. using "Collection" would result in the app showing "Click a sub-Collection name to see its metrics".
+- `maxBars` - default is 100 - the maximum number of datasets to show in the uniquedownloads by PID display. 
+   That graph is ordered by number of counts, so setting the maxBars limits the graph to the 'top <N>' results 
+   (for visibility, the CSV download will contain the full results)
 - graph colors can also be changed in the config file.
 
 
-Using the instructions above, index.html files have been placed at 
+Using the instructions above, the index.html file has been placed at: 
+`/var/www/html/dv-metrics/index.html`
+and should be available on your Apache server at http://example.com/dv-metrics/index.html
 
-- for the installation-level app: /var/www/html/dataverse-metrics/index.html
+#### Dataverse configuration: 
 
-and should be available on your Apache server at http://example.com/dataverse-metrics/index.html
+Typically, you also configure your Dataverse instance to allow easy 'navigating' to the metrics from the Dataverse web page.
+See the Dataverse Guide: [MetricsUrl Guide](https://guides.dataverse.org/en/latest/installation/config.html#metricsurl).
 
 ## Contributing
 
@@ -58,20 +86,21 @@ We love contributors! Please see our [Contributing Guide](CONTRIBUTING.md) for w
 
 ## To Do
 
-- Drop support for Python 2. See https://python3statement.org
+- Improve support for different usage scenarios by configurability 
+- Upgrade libraries (jquery, d3js, bootstrap?). 
 
-##Links
+## History
 
-[![Build Status](https://travis-ci.org/IQSS/dataverse-metrics.svg?branch=master)](https://travis-ci.org/IQSS/dataverse-metrics)
+This code repository has been 'Extracted' from its predecessor at IQSS; [https://github.com/IQSS/dataverse-metrics](https://github.com/IQSS/dataverse-metrics)
+The later `dv-metrics` repo started with the code from the IQSS `dataverse-metrics` version `v0.2.9`, 
+but with all the code removed that implemented the 'global installation'. 
+As a result there is no Python code in here that was originally needed for the (server side) aggregation of metrics from all Dataverse instances. 
 
-[Metrics API](http://guides.dataverse.org/en/latest/api/metrics.html)
-
-[map](https://dataverse.org/installations)
-
-[dataverse-installations](https://github.com/IQSS/dataverse-installations)
-
-[cron](https://en.wikipedia.org/wiki/Cron)
+## Links
 
 [Contributing Guide](CONTRIBUTING.md)
 
-[PEP 373](https://www.python.org/dev/peps/pep-0373/)
+[Metrics API](http://guides.dataverse.org/en/latest/api/metrics.html)
+
+[MetricsUrl Guide](https://guides.dataverse.org/en/latest/installation/config.html#metricsurl)
+
