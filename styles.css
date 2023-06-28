@@ -48,7 +48,7 @@ a:hover {
   margin: 3em;
 }
 
-/* panels containg the graphs */
+/* panels containing the graphs */
 .panel-default>.panel-heading>.row {
   display:flex;
 }
