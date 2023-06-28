@@ -37,7 +37,9 @@ a:hover {
 }
 #dvselect {
   background: aliceblue;
-  margin: 50px 50px 0px 50px;
+}
+#metrics-page-header {
+ margin-bottom: 50px;
 }
 
 /* the graphs */
