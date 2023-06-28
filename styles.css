@@ -1,9 +1,9 @@
-.viz {
-  height: 500px;
-  margin: 3em;
-}
-
-/* http://guides.dataverse.org/en/4.11/style/foundations.html#link-colors */
+/* This is a 'default' style that should try to match Dataverse.
+* It should minimize the differences when using that 'Metrics' link
+* from within Dataverse to get to the metrics page.
+*
+* See: https://guides.dataverse.org/en/latest/style/foundations.html
+*/
 
 a {
   color: #337AB7;
@@ -11,31 +11,20 @@ a {
 a:hover {
   color: #23527C;
 }
+
+/* metrics download */
 .button {
   float: right;
-  background-color: aliceblue;
-  border-radius: 5px;
-  padding: 0px 3px 0px 3px;
-  border-color: blue;
-  border-width: 3px;
-  border-style: outset;
-  margin-right: 10px;
   z-index: 25;
-  position: relative;}
-
+  position: relative;
+}
+/* metrics not-download, but referring to other download */
 .redundant {
   float: right;
-  color: #337AB7;
-  background-color: aliceblue;
-  border-radius: 5px;
-  height:26px;
-  padding: 0px 3px 0px 3px;
-  border-color: antiquewhite;
-  border-width: 2px;
-  border-style: inset;
-  margin-right: 10px;
+  color: lightgrey;
   z-index: 25;
-  position: relative;}
+  position: relative;
+}
 
 #title, #subtitle {
   text-align: center;
@@ -44,19 +33,29 @@ a:hover {
   background: cornsilk;
   max-height: 250px;
   overflow-y: auto;
+  margin-bottom: 15px;
 }
 #dvselect {
   background: aliceblue;
   margin: 50px 50px 0px 50px;
 }
-body {
-  font-family: AntoniaH2;
+
+/* the graphs */
+.viz {
+  height: 500px;
+  margin: 3em;
 }
 
+/* panels containg the graphs */
 .panel-default>.panel-heading>.row {
   display:flex;
 }
 .panel-default>.panel-heading .toggle {
   margin-left:5px;
   margin-right: 10px;
+}
+/* separate graphs more clearly vertically */
+/* bottom line for each column, except when on the last row within a panel body */
+.panel-body .row:not(:last-child) div[class^="col-"] {
+  border-bottom: solid lightgrey 1px;
 }
