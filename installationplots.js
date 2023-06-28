@@ -144,10 +144,8 @@ function timeseries(name, config) {
       visualization.draw();
     }
   });
-  $("#" + lcname).append($("<a/>").addClass("button").attr("href", "/api/info/metrics/" + lcname + "/monthly" + addAlias()).attr("type", "text/csv")
-    .text("CSV").attr("title", "Download CSV file").prepend('<span class="glyphicon glyphicon-download-alt"></span>&nbsp;'));
+  appendDownloadCSV(lcname, "/api/info/metrics/" + lcname + "/monthly" + addAlias());
 }
-
 
 function dataversesByCategory(config) {
   var colors = config["colors"]["dataverses/byCategory"];
@@ -189,8 +187,7 @@ function dataversesByCategory(config) {
       visualization.draw();
     }
   });
-  $("#dataverses-by-category").append($("<a/>").addClass("button").attr("href", "/api/info/metrics/dataverses/byCategory" + addAlias()).attr("type", "text/csv")
-    .text("CSV").attr("title", "Download CSV file").prepend('<span class="glyphicon glyphicon-download-alt"></span>&nbsp;'));
+  appendDownloadCSV("dataverses-by-category", "/api/info/metrics/dataverses/byCategory" + addAlias());
 }
 
 function dataversesBySubject(config) {
@@ -234,8 +231,7 @@ function dataversesBySubject(config) {
       visualization.draw();
     }
   });
-  $("#dataverses-by-subject").append($("<a/>").addClass("button").attr("href", "/api/info/metrics/dataverses/bySubject" + addAlias()).attr("type", "text/csv")
-    .text("CSV").attr("title", "Download CSV file").prepend('<span class="glyphicon glyphicon-download-alt"></span>&nbsp;'));
+  appendDownloadCSV("dataverses-by-subject", "/api/info/metrics/dataverses/bySubject" + addAlias());
 }
 
 function datasetsBySubject(config) {
@@ -279,8 +275,7 @@ function datasetsBySubject(config) {
       visualization.draw();
     }
   });
-  $("#datasets-by-subject").append($("<a/>").addClass("button").attr("href", "/api/info/metrics/datasets/bySubject" + addAlias()).attr("type", "text/csv")
-    .text("CSV").attr("title", "Download CSV file").prepend('<span class="glyphicon glyphicon-download-alt"></span>&nbsp;'));
+  appendDownloadCSV("datasets-by-subject", "/api/info/metrics/datasets/bySubject" + addAlias());
 }
 
 //Retrieves any of the defined Make Data Count metrics
@@ -320,8 +315,7 @@ function makeDataCount(metric, config) {
       visualization.draw();
     }
   });
-  $("#makedatacount-" + metric).append($("<a/>").addClass("button").attr("href", "/api/info/metrics/makeDataCount/" + metric + "/monthly" + addAlias()).attr("type", "text/csv")
-    .text("CSV").attr("title", "Download CSV file").prepend('<span class="glyphicon glyphicon-download-alt"></span>&nbsp;'));
+  appendDownloadCSV("makedatacount-" + metric, "/api/info/metrics/makeDataCount/" + metric + "/monthly" + addAlias());
 }
 
 //Multitimeseries - an array of objects with an additional key that we groupby
@@ -364,10 +358,8 @@ function multitimeseries(name, config, groupby) {
       visualization.draw();
     }
   });
-  $("#" + lcname).append($("<a/>").addClass("button").attr("href", "/api/info/metrics/" + lcname + "/monthly" + addAlias()).attr("type", "text/csv")
-    .text("CSV").attr("title", "Download CSV file").prepend('<span class="glyphicon glyphicon-download-alt"></span>&nbsp;'));
+  appendDownloadCSV(lcname, "/api/info/metrics/" + lcname + "/monthly" + addAlias());
 }
-
 
 function filesByType(config) {
   var color = config["colors"]["files/byType"];
@@ -426,10 +418,8 @@ function filesByType(config) {
       sizeVisualization.draw();
     }
   });
-  $("#files-by-type-count").append($("<a/>").addClass("button").attr("href", "/api/info/metrics/files/byType" + addAlias()).attr("type", "text/csv")
-    .text("CSV").attr("title", "Download CSV file").prepend('<span class="glyphicon glyphicon-download-alt"></span>&nbsp;'));
-  $("#files-by-type-size").append($("<span/>").addClass("redundant").attr("title", "These metrics are included in the CSV for the 'File Count By Type'")
-    .text("CSV").append('&nbsp;').append($("<span/>").addClass("glyphicon glyphicon-question-sign")));
+  appendDownloadCSV("files-by-type-count", "/api/info/metrics/files/byType" + addAlias());
+  appendRedundantDownloadCSV("files-by-type-size", "These metrics are included in the CSV for the 'File Count By Type'");
 }
 
 //Shows the unique download count per PID
@@ -479,8 +469,7 @@ function uniqueDownloads(config) {
       visualization.draw();
     }
   });
-  $("#uniquedownloads-by-pid").append($("<a/>").addClass("button").attr("href", "/api/info/metrics/uniquedownloads" + addAlias()).attr("type", "text/csv")
-    .text("CSV").attr("title", "Download CSV file").prepend('<span class="glyphicon glyphicon-download-alt"></span>&nbsp;'));
+  appendDownloadCSV("uniquedownloads-by-pid", "/api/info/metrics/uniquedownloads" + addAlias());
 }
 
 //The max number of elements (e.g. PIDs) to include can be controlled with the config.maxBars parameter
@@ -537,10 +526,8 @@ function fileDownloads(config) {
        visualization.draw();
     }
   });
-  $("#filedownloads-by-id").append($("<a/>").addClass("button").attr("href", "/api/info/metrics/filedownloads" + addAlias()).attr("type", "text/csv")
-    .text("CSV").attr("title", "Download CSV file").prepend('<span class="glyphicon glyphicon-download-alt"></span>&nbsp;'));
+  appendDownloadCSV("filedownloads-by-id", "/api/info/metrics/filedownloads" + addAlias());
 }
-
 
 //Add the parentAlias param at the end of URLs if alias is set
 function addAlias() {
@@ -563,4 +550,14 @@ function updateDisplayName(name, config) {
     $('#subtitle').html("<h2>Showing Metrics from the " + name + " " + config.dataverseTerm + "</h2>");
     $('#subtitle').fadeIn("slow");
   }
+}
+
+function appendDownloadCSV(id, href) {
+  $("#"+id).append($("<a/>").addClass("button").attr("href", href).attr("type", "text/csv")
+    .text("CSV").attr("title", "Download CSV file").prepend('<span class="glyphicon glyphicon-download-alt"></span>&nbsp;'));
+}
+
+function appendRedundantDownloadCSV(id, title) {
+  $("#"+id).append($("<span/>").addClass("redundant").attr("title", title)
+    .text("CSV").append('&nbsp;').append($("<span/>").addClass("glyphicon glyphicon-question-sign")));
 }
