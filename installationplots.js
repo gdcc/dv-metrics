@@ -111,8 +111,9 @@ function timeseries(name, config) {
     nameLabel = config[singular + "Term"] + "s";
   }
   var color = config["colors"][lcname + "/monthly"];
+  var url = dvserver + '/api/info/metrics/' + lcname + '/monthly' + addAlias();
   $.ajax({
-    url: dvserver + '/api/info/metrics/' + lcname + '/monthly' + addAlias(),
+    url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
 
@@ -144,13 +145,14 @@ function timeseries(name, config) {
       visualization.draw();
     }
   });
-  appendDownloadCSV(lcname, "/api/info/metrics/" + lcname + "/monthly" + addAlias());
+  appendDownloadCSV(lcname, url);
 }
 
 function dataversesByCategory(config) {
   var colors = config["colors"]["dataverses/byCategory"];
+  var url = dvserver + '/api/info/metrics/dataverses/byCategory' + addAlias();
   $.ajax({
-    url: dvserver + '/api/info/metrics/dataverses/byCategory' + addAlias(),
+    url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
       data = data.data;
@@ -187,13 +189,14 @@ function dataversesByCategory(config) {
       visualization.draw();
     }
   });
-  appendDownloadCSV("dataverses-by-category", "/api/info/metrics/dataverses/byCategory" + addAlias());
+  appendDownloadCSV("dataverses-by-category", url);
 }
 
 function dataversesBySubject(config) {
   var colors = config["colors"]["dataverses/bySubject"];
+  var url = dvserver + '/api/info/metrics/dataverses/bySubject' + addAlias();
   $.ajax({
-    url: dvserver + '/api/info/metrics/dataverses/bySubject' + addAlias(),
+    url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
       data = data.data;
@@ -231,13 +234,14 @@ function dataversesBySubject(config) {
       visualization.draw();
     }
   });
-  appendDownloadCSV("dataverses-by-subject", "/api/info/metrics/dataverses/bySubject" + addAlias());
+  appendDownloadCSV("dataverses-by-subject", url);
 }
 
 function datasetsBySubject(config) {
   var colors = config["colors"]["datasets/bySubject"];
+  var url = dvserver + '/api/info/metrics/datasets/bySubject' + addAlias();
   $.ajax({
-    url: dvserver + '/api/info/metrics/datasets/bySubject' + addAlias(),
+    url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
       data = data.data;
@@ -275,15 +279,16 @@ function datasetsBySubject(config) {
       visualization.draw();
     }
   });
-  appendDownloadCSV("datasets-by-subject", "/api/info/metrics/datasets/bySubject" + addAlias());
+  appendDownloadCSV("datasets-by-subject", url);
 }
 
 //Retrieves any of the defined Make Data Count metrics
 // (the graph itself is the same as other timeseries())
 function makeDataCount(metric, config) {
   var color = config["colors"]["makeDataCount/" + metric + "/monthly"];
+  var url = dvserver + '/api/info/metrics/makeDataCount/' + metric + '/monthly' + addAlias();
   $.ajax({
-    url: dvserver + '/api/info/metrics/makeDataCount/' + metric + '/monthly' + addAlias(),
+    url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
 
@@ -315,7 +320,7 @@ function makeDataCount(metric, config) {
       visualization.draw();
     }
   });
-  appendDownloadCSV("makedatacount-" + metric, "/api/info/metrics/makeDataCount/" + metric + "/monthly" + addAlias());
+  appendDownloadCSV("makedatacount-" + metric, url);
 }
 
 //Multitimeseries - an array of objects with an additional key that we groupby
@@ -323,8 +328,9 @@ function makeDataCount(metric, config) {
 function multitimeseries(name, config, groupby) {
   var lcname = name.toLowerCase();
   var color = config["colors"][lcname + "/monthly"];
+  var url = dvserver + '/api/info/metrics/' + lcname + '/monthly' + addAlias();
   $.ajax({
-    url: dvserver + '/api/info/metrics/' + lcname + '/monthly' + addAlias(),
+    url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
 
@@ -358,13 +364,14 @@ function multitimeseries(name, config, groupby) {
       visualization.draw();
     }
   });
-  appendDownloadCSV(lcname, "/api/info/metrics/" + lcname + "/monthly" + addAlias());
+  appendDownloadCSV(lcname, url);
 }
 
 function filesByType(config) {
   var color = config["colors"]["files/byType"];
+  var url = dvserver + '/api/info/metrics/files/byType' + addAlias();
   $.ajax({
-    url: dvserver + '/api/info/metrics/files/byType' + addAlias(),
+    url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
       data = data.data;
@@ -418,7 +425,7 @@ function filesByType(config) {
       sizeVisualization.draw();
     }
   });
-  appendDownloadCSV("files-by-type-count", "/api/info/metrics/files/byType" + addAlias());
+  appendDownloadCSV("files-by-type-count", url);
   appendRedundantDownloadCSV("files-by-type-size", "These metrics are included in the CSV for the 'File Count By Type'");
 }
 
@@ -426,8 +433,9 @@ function filesByType(config) {
 //The max number of elements (e.g. PIDs) to include can be controlled with the config.maxBars parameter
 function uniqueDownloads(config) {
   var color = config["colors"]["downloads/unique"];
+  var url = dvserver + '/api/info/metrics/uniquedownloads' + addAlias();
   $.ajax({
-    url: dvserver + '/api/info/metrics/uniquedownloads' + addAlias(),
+    url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
       data = data.data;
@@ -469,14 +477,15 @@ function uniqueDownloads(config) {
       visualization.draw();
     }
   });
-  appendDownloadCSV("uniquedownloads-by-pid", "/api/info/metrics/uniquedownloads" + addAlias());
+  appendDownloadCSV("uniquedownloads-by-pid", url);
 }
 
 //The max number of elements (e.g. PIDs) to include can be controlled with the config.maxBars parameter
 function fileDownloads(config) {
   var color = config["colors"]["filedownloads/unique"];
+  var url = dvserver + '/api/info/metrics/filedownloads' + addAlias();
   $.ajax({
-    url: dvserver + '/api/info/metrics/filedownloads' + addAlias(),
+    url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
       data = data.data;
@@ -526,7 +535,7 @@ function fileDownloads(config) {
        visualization.draw();
     }
   });
-  appendDownloadCSV("filedownloads-by-id", "/api/info/metrics/filedownloads" + addAlias());
+  appendDownloadCSV("filedownloads-by-id", url);
 }
 
 //Add the parentAlias param at the end of URLs if alias is set
