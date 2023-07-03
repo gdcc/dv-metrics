@@ -1,45 +1,46 @@
-//The alias of the published dataverse to show statistics for (stats are for this dataverse and all published children)
+// The alias of the published dataverse to show statistics for (stats are for this dataverse and all published children)
 var alias;
-//The Dataverse server address - can be "" if this app is deployed on the same server.
+// The Dataverse server address - can be "" if this app is deployed on the same server.
 var dvserver = "";
 
 $(document).ready(function() {
-
-  //Determine which dataverse/sub-dataverse is the focus for the metrics
+  // Determine which dataverse/sub-dataverse is the focus for the metrics
   // (Metrics are for the specified public/published dataverse and all it's public/published children)
   var urlParams = new URLSearchParams(window.location.search);
   alias = (urlParams.get('parentAlias'));
 
-  //Retrieve the configuration,  complete the header, and start creating graphs
+  // Retrieve the configuration,  complete the header, and start creating graphs
   $.getJSON('config.local.json', function(config) {
-
     // Set the Dataverse server to use
     if (config.hasOwnProperty("installationURL")) {
       dvserver = config.installationURL;
     }
-
-    // Retrieve the tree of child dataverses and add them to the tree we use as a selector
-    // getJSON could be used throughout (it wasn't previously due to bugs in the API endpoints in determining when to send json versus text/csv)
-    $.getJSON(
-      dvserver + '/api/info/metrics/tree' + addAlias(),
-      function(data) {
-        var nodes = data.data;
-        updateDisplayName(nodes.name, config);
-        if (typeof nodes.children !== 'undefined') {
-          nodes.children.forEach((node) => {
-            //Make each element in the tree (below the root) a link to get the metrics for that sub-dataverse
-            updateNames(node);
+    if (!config.hasOwnProperty("dvSelect") || config["dvSelect"]) {
+      // Retrieve the tree of child dataverses and add them to the tree we use as a selector
+      // getJSON could be used throughout (it wasn't previously due to bugs in the API endpoints in determining when to send json versus text/csv)
+      $.getJSON(
+        dvserver + '/api/info/metrics/tree' + addAlias(),
+        function(data) {
+          var nodes = data.data;
+          updateDisplayName(nodes.name, config);
+          if (typeof nodes.children !== 'undefined') {
+            nodes.children.forEach((node) => {
+              // Make each element in the tree (below the root) a link to get the metrics for that sub-dataverse
+              updateNames(node);
+            });
+          }
+          // Populate the tree widget
+          $('#dvtree').tree({
+            data: [nodes],
+            autoEscape: false
           });
         }
-        //Populate the tree widget
-        $('#dvtree').tree({
-          data: [nodes],
-          autoEscape: false
-        });
-      }
-    );
+      );
+    } else {
+      $("#dvselect").parent().hide();
+    }
 
-    //Header Information
+    // Header Information
     $('#title').html("<H1>Metrics from the " + config.installationName + "</H1>");
     if (alias == null) {
       $('#subtitle').html("<h2>Showing Metrics from the whole repository</h2>");
@@ -49,7 +50,7 @@ $(document).ready(function() {
       $('#selectString').html('<div><a href= "' + window.location.href.split('?')[0] +'">Show Metrics for the whole repository</a></div><div>Click a sub-' + config.dataverseTerm + ' name to see its metrics</div>');
     }
     
-    //Panels
+    // Panels (sections)
     if(config.hasOwnProperty("downloadsHeader")) {
       $("#downloadSection").find("a").text(config.downloadsHeader);
     }
@@ -60,49 +61,103 @@ $(document).ready(function() {
       $("#holdingsSection").find("a").text(config.holdingsHeader);
     }
     
-    //Footer
+    // Footer
     if (config.hasOwnProperty("globalConfigured")) {
       if(config.globalConfigured === "true") {
         $("#global").html('<a href="/dataverse-metrics/global">View Aggregate Metrics from the Dataverse Community</a>'); 
       }
     }
 
-    //Individual graphs
-    //Row 1
-    timeseries("Dataverses", config);
-    timeseries("Datasets", config);
-    //Row 2
-    dataversesByCategory(config);
-    dataversesBySubject(config);
-    //Row 3
-    datasetsBySubject(config);
-    timeseries("Files", config);
-    //Row 4
-    timeseries("Downloads", config);
-    uniqueDownloads(config);
-    //Row 5
-    fileDownloads(config);
-    //Row 6
-    multitimeseries("UniqueDownloads", config, "pid");
-    //Row 7 - by Count and by Size graphs
-    filesByType(config);
-    
-    // Use MDC by default, is backwards compatible
+    // Individual graphs
+
+    // Downloads section
+    // downloads/monthly - Over time
+    if (!config.hasOwnProperty("timeseries.downloads") || config["timeseries.downloads"]) {
+      timeseries("Downloads", config);
+    } else {
+       $("#downloads").parent().hide();
+    }
+    // uniquedownloads/monthly - Over time
+    if (!config.hasOwnProperty("multitimeseries.uniquedownloads") || config["multitimeseries.uniquedownloads"]) {
+      multitimeseries("UniqueDownloads", config, "pid");
+    } else {
+       $("#uniquedownloads").parent().hide();
+    }
+    // uniquedownloads (top)
+    if (!config.hasOwnProperty("uniquedownloads") || config["uniquedownloads"]) {
+      uniqueDownloads(config);
+    } else {
+      $("#uniquedownloads-by-pid").parent().hide();
+    }
+    // filedownloads (top)
+    if (!config.hasOwnProperty("filedownloads") || config["filedownloads"]) {
+      fileDownloads(config);
+    } else {
+      $("#filedownloads-by-id").parent().hide();
+    }
+
+    // Make Data Count (MDC) section
     if (!config.hasOwnProperty("makeDataCount") || config.makeDataCount) {
-      //Row 8
+      // Over time
       makeDataCount("viewsTotal", config);
       makeDataCount("downloadsTotal", config);
-      //Row 9
       makeDataCount("viewsUnique", config);
       makeDataCount("downloadsUnique", config);
     } else {
       // No MDC
       $("#mdcSection").parent().hide();
     }
+
+    // Holdings Section
+    // datasets/monthly - Over time
+    if (!config.hasOwnProperty("timeseries.datasets") || config["timeseries.datasets"]) {
+      timeseries("Datasets", config);
+    } else {
+      $("#datasets").parent().hide();
+    }
+    // datasets/bySubject
+    if (!config.hasOwnProperty("datasetsbysubject") || config["datasetsbysubject"]) {
+      datasetsBySubject(config);
+    } else {
+      $("#datasets-by-subject").parent().hide();
+    }
+    // files/monthly - Over time
+    if (!config.hasOwnProperty("timeseries.files") || config["timeseries.files"]) {
+      timeseries("Files", config);
+    } else {
+      $("#files").parent().hide();
+    }
+    // files/byType, files-by-type-size - by Count and by Size graphs (2 graphs!)
+    if (!config.hasOwnProperty("filesbytype") || config["filesbytype"]) {
+      filesByType(config);
+    } else {
+      $("#files-by-type-count").parent().hide();
+      $("#files-by-type-size").parent().hide();
+    }
+    // dataverses/monthly - Over time
+    if (!config.hasOwnProperty("timeseries.dataverses") || config["timeseries.dataverses"]) {
+      timeseries("Dataverses", config);
+    } else {
+      $("#dataverses").parent().hide();
+    }
+    // dataverse/bySubject
+    if (!config.hasOwnProperty("dataversesbysubject") || config["dataversesbysubject"]) {
+      dataversesBySubject(config);
+    } else {
+      $("#dataverses-by-subject").parent().hide();
+    }
+    // dataverse/byCategory
+    if (!config.hasOwnProperty("dataversesbycategory") || config["dataversesbycategory"]) {
+       dataversesByCategory(config);
+    } else {
+      $("#dataverses-by-category").parent().hide();
+    }
+
+
   });
 });
 
-//Generic graph of time series - date versus count
+// Generic graph of time series - date versus count
 function timeseries(name, config) {
   var lcname = name.toLowerCase();
   var nameLabel = name;
@@ -282,7 +337,7 @@ function datasetsBySubject(config) {
   appendDownloadCSV("datasets-by-subject", url);
 }
 
-//Retrieves any of the defined Make Data Count metrics
+// Retrieves any of the defined Make Data Count metrics
 // (the graph itself is the same as other timeseries())
 function makeDataCount(metric, config) {
   var color = config["colors"]["makeDataCount/" + metric + "/monthly"];
@@ -323,8 +378,8 @@ function makeDataCount(metric, config) {
   appendDownloadCSV("makedatacount-" + metric, url);
 }
 
-//Multitimeseries - an array of objects with an additional key that we groupby
-//Used for uniquedownloads
+// Multitimeseries - an array of objects with an additional key that we groupby
+// Used for uniquedownloads
 function multitimeseries(name, config, groupby) {
   var lcname = name.toLowerCase();
   var color = config["colors"][lcname + "/monthly"];
@@ -429,8 +484,8 @@ function filesByType(config) {
   appendRedundantDownloadCSV("files-by-type-size", "These metrics are included in the CSV for the 'File Count By Type'");
 }
 
-//Shows the unique download count per PID
-//The max number of elements (e.g. PIDs) to include can be controlled with the config.maxBars parameter
+// Shows the unique download count per PID
+// The max number of elements (e.g. PIDs) to include can be controlled with the config.maxBars parameter
 function uniqueDownloads(config) {
   var color = config["colors"]["downloads/unique"];
   var url = dvserver + '/api/info/metrics/uniquedownloads' + addAlias();
@@ -460,7 +515,7 @@ function uniqueDownloads(config) {
           "label": "Unique Download Count",
           "scale": "linear"
         })
-        //the API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
+        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
         .order("count")
         .text("pid")
         .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
@@ -480,7 +535,7 @@ function uniqueDownloads(config) {
   appendDownloadCSV("uniquedownloads-by-pid", url);
 }
 
-//The max number of elements (e.g. PIDs) to include can be controlled with the config.maxBars parameter
+// The max number of elements (e.g. PIDs) to include can be controlled with the config.maxBars parameter
 function fileDownloads(config) {
   var color = config["colors"]["filedownloads/unique"];
   var url = dvserver + '/api/info/metrics/filedownloads' + addAlias();
@@ -514,7 +569,7 @@ function fileDownloads(config) {
           "label": "Download Count",
           "scale": "linear"
         })
-        //the API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
+        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
         .order("count")
         .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
         .text(xName)
@@ -538,12 +593,12 @@ function fileDownloads(config) {
   appendDownloadCSV("filedownloads-by-id", url);
 }
 
-//Add the parentAlias param at the end of URLs if alias is set
+// Add the parentAlias param at the end of URLs if alias is set
 function addAlias() {
   return ((alias === null) ? '' : '?parentAlias=' + alias);
 }
 
-//Turn dataverse names into links to the metrics page using that dataverse as the parent
+// Turn dataverse names into links to the metrics page using that dataverse as the parent
 function updateNames(node) {
   node.name = "<a href='" + window.location.href.split("?")[0] + "?parentAlias=" + node.alias + "'>" + node.name + "</a>";
   if (typeof node.children !== 'undefined') {
