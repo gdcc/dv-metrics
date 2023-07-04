@@ -61,19 +61,46 @@ Copy `config.local.json.sample` to `config.local.json` and edit the following va
    can be "" if the app is deployed on the same server as Dataverse itself
 - `installationName` - the name of the Dataverse Repository, e.g. "Harvard Dataverse"
 
-and optionally:
-
-- `dataverseTerm` - defaults to "Dataverse" - used in the app to refer to sub-dataverses, 
-   e.g. using "Collection" would result in the app showing "Click a sub-Collection name to see its metrics".
-- `maxBars` - default is 100 - the maximum number of datasets to show in the uniquedownloads by PID display. 
-   That graph is ordered by number of counts, so setting the maxBars limits the graph to the 'top <N>' results 
-   (for visibility, the CSV download will contain the full results)
-- graph colors can also be changed in the config file.
-
-
 Using the instructions above, the index.html file has been placed at: 
 `/var/www/html/dv-metrics/index.html`
-and should be available on your Apache server at http://example.com/dv-metrics/index.html
+and should be available on your Apache server at http://example.com/dv-metrics/index.html. 
+
+__Note__: Make sure the page is available by adding the following to your apache config; ` ProxyPassMatch ^/dv-metrics !`. 
+
+#### More configuration using `config.local.json`.
+
+- `dataverseTerm` - defaults to "Dataverse" - used in the app to refer to sub-dataverses,
+  e.g. using "Collection" would result in the app showing "Click a sub-Collection name to see its metrics".
+- `maxBars` - default is 100 - the maximum number of datasets to show in the uniquedownloads by PID display.
+  That graph is ordered by number of counts, so setting the maxBars limits the graph to the 'top <N>' results
+  (for visibility, the CSV download will contain the full results)
+- graph colors and descriptions can also be changed in the config file.
+
+Parts of the page rendering can be toggled on/off using the configuration.
+
+- `makeDataCount` - The Make Data Count section, which is best to remove when the Dataverse instance does not support this.
+  Removal prevents all the API calls that won't have a result.
+- `dvSelect` - The dataverse (collection) selection via a 'tree'; which useful if the Dataverse instance only has one collection (the root).
+- All the other graphs. Sometimes some graphs don't work well for some reason.
+  Also, some graphs do not make sense, for instance when there is only one collection (sub-verses),
+  the graphs that show 'dataverses' could be removed.
+  For example on an instance with no collections and no MDC:
+  ```json
+  "dvSelect": false,
+  "timeseries.dataverses": false,
+  "dataversesbysubject": false,
+  "dataversesbycategory": false,
+  "makeDataCount": false,
+  ```
+
+#### Changing style and layout
+
+A Lot of style changes can be accomplished by changing the `style.css`. 
+Some things are difficult to change via CSS only and need editing of the `index.html`.
+
+__Note__: After a new release you have to reapply the changes you made, 
+and some might not work anymore. 
+
 
 #### Dataverse configuration: 
 
