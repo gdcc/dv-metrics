@@ -13,17 +13,19 @@ a:hover {
 }
 
 /* metrics download */
-.button {
+.metrics-download-button {
   float: right;
   z-index: 25;
   position: relative;
+  text-decoration: none;
 }
 /* metrics not-download, but referring to other download */
-.redundant {
+.metrics-download-redundant {
   float: right;
   color: lightgrey;
   z-index: 25;
   position: relative;
+  text-decoration: none;
 }
 
 #title, #subtitle {
@@ -33,9 +35,13 @@ a:hover {
   background: cornsilk;
   max-height: 250px;
   overflow-y: auto;
+  padding-left: 1em;
 }
 #dvselect {
   background: aliceblue;
+}
+#selectString {
+  padding-left: 1em;
 }
 #metrics-page-header {
  margin-bottom: 50px;
@@ -47,16 +53,22 @@ a:hover {
   margin: 3em;
 }
 
-/* panels containing the graphs */
-.panel-default>.panel-heading>.row {
-  display:flex;
+/* panels/cards containing the graphs */
+.card {
+    margin-bottom: 15px;
 }
-.panel-default>.panel-heading .toggle {
-  margin-left:5px;
-  margin-right: 10px;
+.card-header a {
+  text-decoration: none;
+}
+/* collapse indicator */
+.card-header .fa {
+  transition: .3s transform ease-in-out;
+}
+.card-header .collapsed .fa {
+  transform: rotate(90deg);
 }
 /* separate graphs more clearly vertically */
 /* bottom line for each column, except when on the last row within a panel body */
-.panel-body .row:not(:last-child) div[class^="col-"] {
+.card-body .row:not(:last-child) div[class^="col-"] {
   border-bottom: solid lightgrey 1px;
 }

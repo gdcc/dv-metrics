@@ -52,13 +52,13 @@ $(document).ready(function() {
     
     // Panels (sections)
     if(config.hasOwnProperty("downloadsHeader")) {
-      $("#downloadSection").find("a").text(config.downloadsHeader);
+      $("#downloadSection").find(".metrics-section-title").text(config.downloadsHeader);
     }
     if(config.hasOwnProperty("makeDataCountHeader")) {
-      $("#mdcSection").find("a").text(config.makeDataCountHeader);
+      $("#mdcSection").find(".metrics-section-title").text(config.makeDataCountHeader);
     }
     if(config.hasOwnProperty("holdingsHeader")) {
-      $("#holdingsSection").find("a").text(config.holdingsHeader);
+      $("#holdingsSection").find(".metrics-section-title").text(config.holdingsHeader);
     }
     
     // Footer
@@ -617,11 +617,11 @@ function updateDisplayName(name, config) {
 }
 
 function appendDownloadCSV(id, href) {
-  $("#"+id).append($("<a/>").addClass("button").attr("href", href).attr("type", "text/csv")
-    .text("CSV").attr("title", "Download CSV file").prepend('<span class="glyphicon glyphicon-download-alt"></span>&nbsp;'));
+  $("#"+id).append($("<a/>").addClass("metrics-download-button").attr("href", href).attr("type", "text/csv")
+    .text("CSV").attr("title", "Download CSV file").prepend('<i class="fa fa-download" aria-hidden="true"></i>&nbsp;'));
 }
 
 function appendRedundantDownloadCSV(id, title) {
-  $("#"+id).append($("<span/>").addClass("redundant").attr("title", title)
-    .text("CSV").append('&nbsp;').append($("<span/>").addClass("glyphicon glyphicon-question-sign")));
+  $("#"+id).append($("<span/>").addClass("metrics-download-redundant").attr("title", title)
+    .text("CSV").append('&nbsp;').append($("<i/>").attr("aria-hidden", "true").addClass("fa fa-question-circle")));
 }
