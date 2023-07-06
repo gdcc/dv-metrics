@@ -21,131 +21,136 @@
     <link href="jqtree.css" media="screen" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <div><div id="title"></div>
+    <div id="metrics-page-header">
+      <div id="title"></div>
       <div id="subtitle"> </div>
     </div>
-    <div id='dvselect'>
-      <div id="selectString"></div>
-      <div id="dvtree"></div>
-    </div>
     <div class="container">
-      <div class="panel panel-default">
-        <div id="downloadSection" class="panel-heading">
-          <div class="row">
-            <div>
-              <span class="toggle collapse out d-panel">►</span>
-              <span class="toggle collapse in d-panel">▼</span>
-            </div>
-            <div>
-              <a data-toggle="collapse" data-target=".d-panel">Downloads</a>
-            </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div id='dvselect' class="panel panel-default">
+            <div id="selectString"></div>
+            <div id="dvtree"></div>
           </div>
         </div>
-        <div class="panel-body collapse in d-panel ">
-          <div class="row">
-            <div class="col-xs-12 col-md-6">
-              <div id="downloads" class="viz"></div>
-            </div>
-            <div class="col-xs-12 col-md-6">
-              <div id="uniquedownloads" class="viz"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12 col-md-12">
-              <div id="uniquedownloads-by-pid" class="viz"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12 col-md-12">
-              <div id="filedownloads-by-id" class="viz"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <div class="col-xs-12">
+          <div id="metrics-graphs" class="">
             <div class="panel panel-default">
-        <div id="mdcSection" class="panel-heading">
-          <div class="row">
-          <div>
-              <span class="toggle collapse out mdc-panel">►</span>
-              <span class="toggle collapse in mdc-panel">▼</span>
+              <div id="downloadSection" class="panel-heading">
+                <div class="row">
+                  <div>
+                    <span class="toggle collapse out d-panel">►</span>
+                    <span class="toggle collapse in d-panel">▼</span>
+                  </div>
+                  <div>
+                    <a data-toggle="collapse" data-target=".d-panel">Downloads</a>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-body collapse in d-panel ">
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <div id="downloads" class="viz"></div>
+                  </div>
+                  <div class="col-xs-12 col-md-6">
+                    <div id="uniquedownloads" class="viz"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-md-12">
+                    <div id="uniquedownloads-by-pid" class="viz"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-md-12">
+                    <div id="filedownloads-by-id" class="viz"></div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <a data-toggle="collapse" data-target=".mdc-panel">Make Data Count</a>
-          </div>
-        </div>
-        <div class="panel-body collapse in mdc-panel ">
-          <div class="row">
-            <div class="col-xs-12 col-md-6">
-              <div id="makedatacount-viewsTotal" class="viz"></div>
+            <div class="panel panel-default">
+              <div id="mdcSection" class="panel-heading">
+                <div class="row">
+                <div>
+                    <span class="toggle collapse out mdc-panel">►</span>
+                    <span class="toggle collapse in mdc-panel">▼</span>
+                  </div>
+                  <a data-toggle="collapse" data-target=".mdc-panel">Make Data Count</a>
+                </div>
+              </div>
+              <div class="panel-body collapse in mdc-panel ">
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <div id="makedatacount-viewsTotal" class="viz"></div>
+                  </div>
+                  <div class="col-xs-12 col-md-6">
+                    <div id="makedatacount-downloadsTotal" class="viz"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <div id="makedatacount-viewsUnique" class="viz"></div>
+                  </div>
+                  <div class="col-xs-12 col-md-6">
+                    <div id="makedatacount-downloadsUnique" class="viz"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default">
+            <div id="holdingsSection" class="panel-heading">
+                <div class="row">
+                  <div>
+                    <span class="toggle collapse out h-panel">►</span>
+                    <span class="toggle collapse in h-panel">▼</span>
+                  </div>
+                  <a data-toggle="collapse" data-target=".h-panel">Holdings</a>
+                </div>
+              </div>
+              <div class="panel-body collapse in h-panel ">
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <div id="datasets" class="viz"></div>
+                  </div>
+                  <div class="col-xs-12 col-md-6">
+                    <div id="datasets-by-subject" class="viz"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <div id="files" class="viz"></div>
+                  </div>
+                  <div class="col-xs-12 col-md-6">
+                    <div id="files-by-type-count" class="viz"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <div id="files-by-type-size" class="viz"></div>
+                  </div>
+                  <div class="col-xs-12 col-md-6">
+                    <div id="dataverses" class="viz"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <div id="dataverses-by-subject" class="viz"></div>
+                  </div>
+                  <div class="col-xs-12 col-md-6">
+                    <div id="dataverses-by-category" class="viz"></div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="col-xs-12 col-md-6">
-              <div id="makedatacount-downloadsTotal" class="viz"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12 col-md-6">
-              <div id="makedatacount-viewsUnique" class="viz"></div>
-            </div>
-            <div class="col-xs-12 col-md-6">
-              <div id="makedatacount-downloadsUnique" class="viz"></div>
+              <p id="global"></p>
+              <p class="help-block small">Data retrieved via <a href="http://guides.dataverse.org/en/latest/api" target="_blank">the Dataverse Metrics API</a></p>
+              <p class="help-block small">Feedback is welcome via <a href="https://github.com/gdcc/dv-metrics" target="_blank">https://github.com/gdcc/dv-metrics</a>
+                  or <a href="https://dataverse.org/contact" target="_blank">any other channel</a>.</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="panel panel-default">
-      <div id="holdingsSection" class="panel-heading">
-          <div class="row">
-            <div>
-              <span class="toggle collapse out h-panel">►</span>
-              <span class="toggle collapse in h-panel">▼</span>
-            </div>
-            <a data-toggle="collapse" data-target=".h-panel">Holdings</a>
-          </div>
-        </div>
-        <div class="panel-body collapse in h-panel ">
-          <div class="row">
-            <div class="col-xs-12 col-md-6">
-              <div id="datasets" class="viz"></div>
-            </div>
-            <div class="col-xs-12 col-md-6">
-              <div id="datasets-by-subject" class="viz"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12 col-md-6">
-              <div id="files" class="viz"></div>
-            </div>
-            <div class="col-xs-12 col-md-6">
-              <div id="files-by-type-count" class="viz"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12 col-md-6">
-              <div id="files-by-type-size" class="viz"></div>
-            </div>
-            <div class="col-xs-12 col-md-6">
-              <div id="dataverses" class="viz"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12 col-md-6">
-              <div id="dataverses-by-subject" class="viz"></div>
-            </div>
-            <div class="col-xs-12 col-md-6">
-              <div id="dataverses-by-category" class="viz"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-12 col-md-6">
-        <p id="global"></p>
-        <p class="help-block small">Data retrieved via <a href="http://guides.dataverse.org/en/latest/api" target="_blank">the Dataverse Metrics API</a></p>
-        <p class="help-block small">Feedback is welcome via <a href="https://github.com/gdcc/dv-metrics" target="_blank">https://github.com/gdcc/dv-metrics</a> or <a href="https://da
-taverse.org/contact" target="_blank">any other channel</a>.</p>
-      </div>
-    </div>
-  </body>
-</html>
-
     </div>
   </body>
 </html>
