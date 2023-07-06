@@ -174,30 +174,25 @@ function timeseries(name, config) {
 
       data = data.data;
       var yLabel = "Number of " + nameLabel;
-      var visualization = d3plus.viz()
+      var visualization = new d3plus.BarChart()
         .data(data)
         .title(nameLabel)
-        .container("#" + lcname)
-        .type("bar")
-        .id("date")
-        .x({
-          "value": "date",
-          "label": "Month"
-        })
-        .y({
-          "range": [0, data[data.length - 1].count * 1.3],
-          "value": "count",
-          "label": yLabel
-        })
+        .select("#" + lcname)
+        .groupBy("date")
+        .x("date")
+        .y("count")
+        .xConfig({title: "Month"})
+        .yConfig({title: yLabel})
+        //.time("date") // interactive timeline selection
         .color(function(d) {
           return color;
-        })
-        .resize(true);
+        });
+
       if(config.hasOwnProperty("timeseries." + lcname + ".definition")) {
         var explain = config["timeseries." + lcname + ".definition"];
-        visualization.footer(config["timeseries." + lcname + ".definition"]);
+        //visualization.footer(config["timeseries." + lcname + ".definition"]);
       }
-      visualization.draw();
+      visualization.render();
     }
   });
   appendDownloadCSV(lcname, url);
@@ -212,36 +207,32 @@ function dataversesByCategory(config) {
     success: function(data) {
       data = data.data;
       var tileLabel = "Number of " + config.dataverseTerm + "s";
-      var visualization = d3plus.viz()
+      var visualization = new d3plus.Treemap()
         .data(data)
         .title(config.dataverseTerm + "s by Category")
-        .title({
-          "total": true
-        })
-        .container("#dataverses-by-category")
-        .type("tree_map")
-        .id("category")
-        .size("count")
-        .color({
-          value: "count",
-          heatmap: colors.reverse()
-        })
-        .format({
-          "text": function(text, params) {
-            if (text === "count") {
-              return tileLabel;
-            } else {
-              return d3plus.string.title(text, params);
-            }
-          }
-        })
-        .legend(false)
-        .resize(true);
+        .select("#dataverses-by-category")
+        .groupBy("category")
+        .sum("count")
+        .legend(false);
+//        .color({
+//          value: "count",
+//          heatmap: colors.reverse()
+//        })
+//        .format({
+//          "text": function(text, params) {
+//            if (text === "count") {
+//              return tileLabel;
+//            } else {
+//              return d3plus.string.title(text, params);
+//            }
+//          }
+//        })
+
       if(config.hasOwnProperty("dataversesbycategory.definition")) {
         var explain = config["dataversesbycategory.definition"];
-        visualization.footer(config["dataversesbycategory.definition"]);
+        //visualization.footer(config["dataversesbycategory.definition"]);
       }
-      visualization.draw();
+      visualization.render();
     }
   });
   appendDownloadCSV("dataverses-by-category", url);
@@ -257,36 +248,32 @@ function dataversesBySubject(config) {
       data = data.data;
 
       var tileLabel = "Number of " + config.dataverseTerm + "s";
-      var visualization = d3plus.viz()
+      var visualization = new d3plus.Treemap()
         .data(data)
         .title(config.dataverseTerm + "s by Subject")
-        .title({
-          "total": true
-        })
-        .container("#dataverses-by-subject")
-        .type("tree_map")
-        .id("subject")
-        .size("count")
-        .color({
-          value: "count",
-          heatmap: colors.reverse()
-        })
-        .format({
-          "text": function(text, params) {
-            if (text === "count") {
-              return tileLabel;
-            } else {
-              return d3plus.string.title(text, params);
-            }
-          }
-        })
-        .legend(false)
-        .resize(true);
+        .select("#dataverses-by-subject")
+        .groupBy("subject")
+        .sum("count")
+        .legend(false);
+//        .color({
+//          value: "count",
+//          heatmap: colors.reverse()
+//        })
+//        .format({
+//          "text": function(text, params) {
+//            if (text === "count") {
+//              return tileLabel;
+//            } else {
+//              return d3plus.string.title(text, params);
+//            }
+//          }
+//        })
+
       if(config.hasOwnProperty("dataversesbysubject.definition")) {
         var explain = config["dataversesbysubject.definition"];
-        visualization.footer(config["dataversesbysubject.definition"]);
+        //visualization.footer(config["dataversesbysubject.definition"]);
       }
-      visualization.draw();
+      visualization.render();
     }
   });
   appendDownloadCSV("dataverses-by-subject", url);
@@ -302,36 +289,32 @@ function datasetsBySubject(config) {
       data = data.data;
 
       var tileLabel = "Number of " + config.Term;
-      var visualization = d3plus.viz()
+      var visualization = new d3plus.Treemap()
         .data(data)
         .title(config.datasetTerm + " by Subject")
-        .title({
-          "total": true
-        })
-        .container("#datasets-by-subject")
-        .type("tree_map")
-        .id("subject")
-        .size("count")
-        .color({
-          value: "count",
-          heatmap: colors.reverse()
-        })
-        .format({
-          "text": function(text, params) {
-            if (text === "count") {
-              return tileLabel;
-            } else {
-              return d3plus.string.title(text, params);
-            }
-          }
-        })
-        .legend(false)
-        .resize(true);
+        .select("#datasets-by-subject")
+        .groupBy("subject")
+        .sum("count")
+        .legend(false);
+//        .color({
+//          value: "count",
+//          heatmap: colors.reverse()
+//        })
+//        .format({
+//          "text": function(text, params) {
+//            if (text === "count") {
+//              return tileLabel;
+//            } else {
+//              return d3plus.string.title(text, params);
+//            }
+//          }
+//        })
+
       if(config.hasOwnProperty("datasetsbysubject.definition")) {
         var explain = config["datasetsbysubject.definition"];
-        visualization.footer(config["datasetsbysubject.definition"]);
+        //visualization.footer(config["datasetsbysubject.definition"]);
       }
-      visualization.draw();
+      visualization.render();
     }
   });
   appendDownloadCSV("datasets-by-subject", url);
@@ -349,30 +332,23 @@ function makeDataCount(metric, config) {
 
       data = data.data;
       var yLabel = "Number of " + metric;
-      var visualization = d3plus.viz()
+      var visualization = new d3plus.BarChart()
         .data(data)
         .title("Make Data Count Metrics-" + metric)
-        .container("#makedatacount-" + metric)
-        .type("bar")
-        .id("date")
-        .x({
-          "value": "date",
-          "label": "Month"
-        })
-        .y({
-          "range": [0, data[data.length - 1].count * 1.3],
-          "value": "count",
-          "label": yLabel
-        })
+        .select("#makedatacount-" + metric)
+        .groupBy("date")
+        .x("date")
+        .y("count")
+        .xConfig({title: "Month"})
+        .yConfig({title: yLabel})
         .color(function(d) {
           return color;
-        })
-        .resize(true);
+        });
       if(config.hasOwnProperty("makedatacount." + metric + ".definition")) {
         var explain = config["makedatacount." + metric + ".definition"];
-        visualization.footer(config["makedatacount." + metric + ".definition"]);
+        //visualization.footer(config["makedatacount." + metric + ".definition"]);
       }
-      visualization.draw();
+      visualization.render();
     }
   });
   appendDownloadCSV("makedatacount-" + metric, url);
@@ -391,32 +367,29 @@ function multitimeseries(name, config, groupby) {
 
       data = data.data;
       var yLabel = "Number of " + name;
-      var visualization = d3plus.viz()
+      var visualization = new d3plus.StackedArea()//BarChart() // StackedArea() looks weird
         .data(data)
         .title(name)
-        .container("#" + lcname)
-        .type("stacked")
-        .id(groupby)
-        .x({
-          "value": "date",
-          "label": "Month"
-        })
-        .y({
-          "value": "count",
-          "label": yLabel
-        })
-        .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
-        .mouse({
-          "click": function(d) {
-            window.open(dvserver + "/dataset.xhtml?persistentId=" + JSON.stringify(d.d3plus_data[groupby]).replace(/["]+/g,''), target="_blank");
-          }
-        })
-        .resize(true);
+        .select("#" + lcname)
+        //.stacked(true)
+        .groupBy(groupby)
+        .x("date")
+        .y("count")
+        .xConfig({title: "Month"})
+        .yConfig({title: yLabel})
+        .legend(false);
+//        .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
+//        .mouse({
+//          "click": function(d) {
+//            window.open(dvserver + "/dataset.xhtml?persistentId=" + JSON.stringify(d.d3plus_data[groupby]).replace(/["]+/g,''), target="_blank");
+//          }
+//        })
+
       if(config.hasOwnProperty("multitimeseries." + lcname + ".definition")) {
         var explain = config["multitimeseries." + lcname + ".definition"];
-        visualization.footer(config["multitimeseries." + lcname + ".definition"]);
+        //visualization.footer(config["multitimeseries." + lcname + ".definition"]);
       }
-      visualization.draw();
+      visualization.render();
     }
   });
   appendDownloadCSV(lcname, url);
@@ -430,54 +403,66 @@ function filesByType(config) {
     headers: { Accept: "application/json" },
     success: function(data) {
       data = data.data;
-      var countVisualization = d3plus.viz()
-        .data(data).dev(true)
+      var countVisualization = new d3plus.BarChart()
+        .data(data)
+//        .dev(true)
         .title("File Count By Type")
-        .container("#files-by-type-count")
-        .type("bar")
-        .id("contenttype")
+        .select("#files-by-type-count")
+        .groupBy("contenttype")
+//        .y({
+//          "value": "count",
+//          "label": "File Count",
+//          "scale": "linear"
+//        })
+//        .x({
+//          "value": "contenttype",
+//          "label": "Content Type"
+//        })
+        .y("count")
+        .x("contenttype")
+        .xConfig({title: "Content Type"})
+        .yConfig({title: "File Count"})
+        .xSort(function(a,b) { return a["count"] < b["count"];})
+        .legend(false);
+//        .order("count")
+//        .text("contenttype")
 
-        .x({
-          "value": "contenttype",
-          "label": "Content Type"
-        })
-        .y({
-          "value": "count",
-          "label": "File Count",
-          "scale": "linear"
-        })
-        .order("count")
-        .text("contenttype")
-        .resize(true);
       if(config.hasOwnProperty("filesbytype.definition")) {
         var explain = config["filesbytype.definition"];
-        countVisualization.footer(config["filesbytype.definition"]);
+        //countVisualization.footer(config["filesbytype.definition"]);
       }
-      countVisualization.draw();
+      countVisualization.render();
 
-      var sizeVisualization = d3plus.viz()
-        .data(data.filter(d=>d.size > 0)).dev(true)
+      var sizeVisualization =  new d3plus.BarChart()
+        .data(data.filter(d=>d.size > 0))
+        //.dev(true)
         .title("File Size By Type")
-        .container("#files-by-type-size")
-        .type("bar")
-        .id("contenttype")
-        .x({
-          "value": "contenttype",
-          "label": "Content Type"
-        })
-        .y({
-          "value": "size",
-          "label": "Total Size By File Type",
-          "scale": "log"
-        })
-        .order("size")
-        .text("contenttype")
-        .resize(true);
+        .select("#files-by-type-size")
+        .groupBy("contenttype")
+//        .x({
+//          "value": "contenttype",
+//          "label": "Content Type"
+//        })
+//        .y({
+//          "value": "size",
+//          "label": "Total Size By File Type",
+//          "scale": "log"
+//        })
+        .x("contenttype")
+        .y("size")
+        .xConfig({title: "Content Type"})
+        .yConfig({title: "Total Size By File Type"})
+        .yConfig ({"scale": "log"})
+        .yConfig({"gridLog": true}) // visual remineder of the log scale
+        .xSort(function(a,b) { return a["size"] < b["size"];})
+        .legend(false);
+//        .text("contenttype")
+
       if(config.hasOwnProperty("filesbytype.definition")) {
         var explain = config["filesbytype.definition"];
-        sizeVisualization.footer(config["filesbytype.definition"]);
+        //sizeVisualization.footer(config["filesbytype.definition"]);
       }
-      sizeVisualization.draw();
+      sizeVisualization.render();
     }
   });
   appendDownloadCSV("files-by-type-count", url);
@@ -500,36 +485,33 @@ function uniqueDownloads(config) {
         data = data.slice(0, maxBars);
         title = title + " (top " + maxBars + ")";
       }
-      var visualization = d3plus.viz()
+      var xLabel = config.datasetTerm + " Identifier";
+      var visualization = new d3plus.BarChart()
         .data(data)
         .title(title)
-        .container("#uniquedownloads-by-pid")
-        .type("bar")
-        .id("pid")
-        .x({
-          "value": "pid",
-          "label": config.datasetTerm + " Identifier"
-        })
-        .y({
-          "value": "count",
-          "label": "Unique Download Count",
-          "scale": "linear"
-        })
-        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
-        .order("count")
-        .text("pid")
-        .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
-        .mouse({
-          "click": function(d) {
-            window.open(dvserver + "/dataset.xhtml?persistentId=" + JSON.stringify(d.pid).replace(/["]+/g,''), target="_blank");
-          }
-        })
-        .resize(true);
+        .select("#uniquedownloads-by-pid")
+        .groupBy("pid")
+        .x("pid")
+        .y("count")
+        .xConfig({title: xLabel})
+        .yConfig({title: "Unique Download Count"})
+        .xSort(function(a,b) { return a["count"] < b["count"];})
+        .legend(false);
+//        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
+//        .order("count")
+//        .text("pid")
+//        .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
+//        .mouse({
+//          "click": function(d) {
+//            window.open(dvserver + "/dataset.xhtml?persistentId=" + JSON.stringify(d.pid).replace(/["]+/g,''), target="_blank");
+//          }
+//        })
+
       if(config.hasOwnProperty("uniquedownloads.definition")) {
         var explain = config["uniquedownloads.definition"];
-        visualization.footer(config["uniquedownloads.definition"]);
+        //visualization.footer(config["uniquedownloads.definition"]);
       }
-      visualization.draw();
+      visualization.render();
     }
   });
   appendDownloadCSV("uniquedownloads-by-pid", url);
@@ -554,40 +536,36 @@ function fileDownloads(config) {
         data = data.slice(0, maxBars);
         title = title + " (top " + maxBars + ")";
       }
-      var visualization = d3plus.viz()
+      var xLabel = config.datasetTerm + " Identifier";
+      var visualization = new d3plus.BarChart()
         .data(data)
         .title(title)
-        .container("#filedownloads-by-id")
-        .type("bar")
-        .id("id")
-        .x({
-          "value": xName,
-          "label": config.datasetTerm + " Identifier"
-        })
-        .y({
-          "value": "count",
-          "label": "Download Count",
-          "scale": "linear"
-        })
-        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
-        .order("count")
-        .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
-        .text(xName)
-        .mouse({
-          "click": function(d) {
-            if(!d.hasOwnProperty("pid") || d.pid.length==0) {
-              window.open(dvserver + "/file.xhtml?fileId=" + JSON.stringify(d.id).replace(/["]+/g,''), target="_blank");
-            } else {
-              window.open(dvserver + "/file.xhtml?persistentId=" + JSON.stringify(d.pid).replace(/["]+/g,''), target="_blank");
-            }
-          }
-        })
-        .resize(true);
+        .select("#filedownloads-by-id")
+        .groupBy("id")
+        .x(xName)
+        .y("count")
+        .xConfig({title: xLabel})
+        .yConfig({title: "Download Count"})
+        .xSort(function(a,b) { return a["count"] < b["count"];});
+//        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
+//        .order("count")
+//        .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
+//        .text(xName)
+//        .mouse({
+//          "click": function(d) {
+//            if(!d.hasOwnProperty("pid") || d.pid.length==0) {
+//              window.open(dvserver + "/file.xhtml?fileId=" + JSON.stringify(d.id).replace(/["]+/g,''), target="_blank");
+//            } else {
+//              window.open(dvserver + "/file.xhtml?persistentId=" + JSON.stringify(d.pid).replace(/["]+/g,''), target="_blank");
+//            }
+//          }
+//        })
+
       if(config.hasOwnProperty("filedownloads.definition")) {
         var explain = config["filedownloads.definition"];
-        visualization.footer(config["filedownloads.definition"]);
+        //visualization.footer(config["filedownloads.definition"]);
       }
-       visualization.draw();
+       visualization.render();
     }
   });
   appendDownloadCSV("filedownloads-by-id", url);
