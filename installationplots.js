@@ -385,6 +385,10 @@ function multitimeseries(name, config, groupby) {
         .y("count")
         .xConfig({title: "Month"})
         .yConfig({title: yLabel})
+        .on("click", function(d) {
+          // assuming groupby has a pid
+          window.open(dvserver + "/dataset.xhtml?persistentId=" + d[groupby], target="_blank");
+        })
         .legend(false);
 //        .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
 //        .mouse({
@@ -528,6 +532,9 @@ function uniqueDownloads(config) {
                            ]
                          ]
                        })
+        .on("click", function(d) {
+          window.open(dvserver + "/dataset.xhtml?persistentId=" + d.pid, target="_blank");
+        })
         .legend(false);
 //        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
 //        .order("count")
@@ -586,6 +593,13 @@ function fileDownloads(config) {
                            ]
                          ]
                        })
+        .on("click", function(d) {
+            if(!d.hasOwnProperty("pid") || d.pid.length==0) {
+              window.open(dvserver + "/file.xhtml?fileId=" + d.id, target="_blank");
+            } else {
+              window.open(dvserver + "/file.xhtml?persistentId=" + d.pid, target="_blank");
+            }
+        })
         .xSort(function(a,b) { return a["count"] < b["count"];});
 //        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
 //        .order("count")
