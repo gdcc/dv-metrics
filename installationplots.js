@@ -183,6 +183,14 @@ function timeseries(name, config) {
         .y("count")
         .xConfig({title: "Month"})
         .yConfig({title: yLabel})
+        .tooltipConfig({
+                         "tbody": [
+                           [
+                             "Count:",
+                             function(d) { return d['count']; }
+                           ]
+                         ]
+                       })
         //.time("date") // interactive timeline selection
         .color(function(d) {
           return color;
@@ -423,6 +431,14 @@ function filesByType(config) {
         .xConfig({title: "Content Type"})
         .yConfig({title: "File Count"})
         .xSort(function(a,b) { return a["count"] < b["count"];})
+        .tooltipConfig({
+                         "tbody": [
+                           [
+                             "Count:",
+                             function(d) { return d['count']; }
+                           ]
+                         ]
+                       })
         .legend(false);
 //        .order("count")
 //        .text("contenttype")
@@ -455,6 +471,14 @@ function filesByType(config) {
         .yConfig ({"scale": "log"})
         .yConfig({"gridLog": true}) // visual remineder of the log scale
         .xSort(function(a,b) { return a["size"] < b["size"];})
+        .tooltipConfig({
+                         "tbody": [
+                           [
+                             "Size:",
+                             function(d) { return d3plus.formatAbbreviate(Math.abs(d['size'])); }
+                           ]
+                         ]
+                       })
         .legend(false);
 //        .text("contenttype")
 
@@ -496,6 +520,14 @@ function uniqueDownloads(config) {
         .xConfig({title: xLabel})
         .yConfig({title: "Unique Download Count"})
         .xSort(function(a,b) { return a["count"] < b["count"];})
+        .tooltipConfig({
+                         "tbody": [
+                           [
+                             "Count:",
+                             function(d) { return d['count']; }
+                           ]
+                         ]
+                       })
         .legend(false);
 //        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
 //        .order("count")
@@ -526,10 +558,10 @@ function fileDownloads(config) {
     headers: { Accept: "application/json" },
     success: function(data) {
       data = data.data;
-            var xName = "pid";
-            if(data[0].pid.length==0) {
-                    xName="id";
-            }
+      var xName = "pid"; // prefer pid over id
+      if(!data[0].hasOwnProperty("pid") || data[0].pid.length==0) {
+        xName="id";
+      }
       var title = "Downloads per DataFile";
       var maxBars = config["maxBars"];
       if (typeof maxBars !== "undefined") {
@@ -541,11 +573,19 @@ function fileDownloads(config) {
         .data(data)
         .title(title)
         .select("#filedownloads-by-id")
-        .groupBy("id")
+        .groupBy(xName)
         .x(xName)
         .y("count")
         .xConfig({title: xLabel})
         .yConfig({title: "Download Count"})
+        .tooltipConfig({
+                         "tbody": [
+                           [
+                             "Count:",
+                             function(d) { return d['count']; }
+                           ]
+                         ]
+                       })
         .xSort(function(a,b) { return a["count"] < b["count"];});
 //        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
 //        .order("count")
