@@ -375,7 +375,7 @@ function multitimeseries(name, config, groupby) {
 
       data = data.data;
       var yLabel = "Number of " + name;
-      var visualization = new d3plus.StackedArea()//BarChart() // StackedArea() looks weird
+      var visualization = new d3plus.StackedArea() // BarChart() works, but StackedArea() or AreaPlot() looks weird
         .data(data)
         .title(name)
         .select("#" + lcname)
@@ -389,6 +389,7 @@ function multitimeseries(name, config, groupby) {
           // assuming groupby has a pid
           window.open(dvserver + "/dataset.xhtml?persistentId=" + d[groupby], target="_blank");
         })
+        .xConfig({labelOffset: 1, labelRotation: true})
         .legend(false);
 //        .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
 //        .mouse({
@@ -566,7 +567,7 @@ function fileDownloads(config) {
     success: function(data) {
       data = data.data;
       var xName = "pid"; // prefer pid over id
-      if(!data[0].hasOwnProperty("pid") || data[0].pid.length==0) {
+      if(!data || !data.length || !data[0].hasOwnProperty("pid") || data[0].pid.length==0) {
         xName="id";
       }
       var title = "Downloads per DataFile";
