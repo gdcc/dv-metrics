@@ -4,21 +4,21 @@
     <title>Dataverse Metrics</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js">
     </script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
-    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     <script src="d3plus.v1.9.8/js/d3.min.js">
     </script>
     <script src="d3plus.v1.9.8/js/d3plus.min.js">
     </script>
-    <script src="tree.jquery.js">
+    <script src="jqtree.1.7.0/tree.jquery.js">
     </script>
     <script src="installationplots.js">
     </script>
     <link href="styles.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="jqtree.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="jqtree.1.7.0/jqtree.css" media="screen" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="metrics-page-header">
@@ -28,116 +28,111 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12">
-          <div id='dvselect' class="panel panel-default">
+          <div id='dvselect' class="card card-default">
             <div id="selectString"></div>
             <div id="dvtree"></div>
           </div>
         </div>
         <div class="col-xs-12">
           <div id="metrics-graphs" class="">
-            <div class="panel panel-default">
-              <div id="downloadSection" class="panel-heading">
-                <div class="row">
-                  <div>
-                    <span class="toggle collapse out d-panel">►</span>
-                    <span class="toggle collapse in d-panel">▼</span>
-                  </div>
-                  <div>
-                    <a data-toggle="collapse" data-target=".d-panel">Downloads</a>
-                  </div>
-                </div>
+            <div class="card card-default">
+              <div id="downloadSection" class="card-header">
+                <a data-bs-toggle="collapse" href="#downloadSectionBody" aria-expanded="true" aria-controls="downloadSection">
+                  <i class="fa fa-chevron-down pull-right"></i>
+                  <span class="metrics-section-title">Downloads</span>
+                </a>
               </div>
-              <div class="panel-body collapse in d-panel ">
-                <div class="row">
-                  <div class="col-xs-12 col-md-6">
-                    <div id="downloads" class="viz"></div>
+              <div id="downloadSectionBody" class="collapse show" aria-labelledby="downloadSection" aria-expanded="true" aria-controls="downloadSection">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                      <div id="downloads" class="viz"></div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                      <div id="uniquedownloads" class="viz"></div>
+                    </div>
                   </div>
-                  <div class="col-xs-12 col-md-6">
-                    <div id="uniquedownloads" class="viz"></div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                      <div id="uniquedownloads-by-pid" class="viz"></div>
+                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-12 col-md-12">
-                    <div id="uniquedownloads-by-pid" class="viz"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-12 col-md-12">
-                    <div id="filedownloads-by-id" class="viz"></div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                      <div id="filedownloads-by-id" class="viz"></div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div id="mdcSection" class="panel-heading">
-                <div class="row">
-                <div>
-                    <span class="toggle collapse out mdc-panel">►</span>
-                    <span class="toggle collapse in mdc-panel">▼</span>
-                  </div>
-                  <a data-toggle="collapse" data-target=".mdc-panel">Make Data Count</a>
-                </div>
+            <div class="card card-default">
+              <div id="mdcSection" class="card-header">
+                <a data-bs-toggle="collapse" data-target="#mdcSectionBody" href="#mdcSectionBody" aria-expanded="true" aria-controls="mdcSection">
+                  <i class="fa fa-chevron-down pull-right"></i>
+                  <span class="metrics-section-title">Make Data Count</span>
+                </a>
               </div>
-              <div class="panel-body collapse in mdc-panel ">
-                <div class="row">
-                  <div class="col-xs-12 col-md-6">
-                    <div id="makedatacount-viewsTotal" class="viz"></div>
+              <div id="mdcSectionBody" class="collapse show" aria-labelledby="mdcSection" aria-expanded="true" aria-controls="mdcSection">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                      <div id="makedatacount-viewsTotal" class="viz"></div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                      <div id="makedatacount-downloadsTotal" class="viz"></div>
+                    </div>
                   </div>
-                  <div class="col-xs-12 col-md-6">
-                    <div id="makedatacount-downloadsTotal" class="viz"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-12 col-md-6">
-                    <div id="makedatacount-viewsUnique" class="viz"></div>
-                  </div>
-                  <div class="col-xs-12 col-md-6">
-                    <div id="makedatacount-downloadsUnique" class="viz"></div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                      <div id="makedatacount-viewsUnique" class="viz"></div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                      <div id="makedatacount-downloadsUnique" class="viz"></div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="panel panel-default">
-            <div id="holdingsSection" class="panel-heading">
-                <div class="row">
-                  <div>
-                    <span class="toggle collapse out h-panel">►</span>
-                    <span class="toggle collapse in h-panel">▼</span>
-                  </div>
-                  <a data-toggle="collapse" data-target=".h-panel">Holdings</a>
-                </div>
+            <div class="card card-default">
+              <div id="holdingsSection" class="card-header">
+                <a data-bs-toggle="collapse" href="#holdingsSectionBody" aria-expanded="true" aria-controls="holdingsSection">
+                  <i class="fa fa-chevron-down pull-right"></i>
+                  <span class="metrics-section-title">Holdings</span>
+                </a>
               </div>
-              <div class="panel-body collapse in h-panel ">
-                <div class="row">
-                  <div class="col-xs-12 col-md-6">
-                    <div id="datasets" class="viz"></div>
+              <div id="holdingsSectionBody" class="collapse show" aria-labelledby="holdingsSection">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                      <div id="datasets" class="viz"></div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                      <div id="datasets-by-subject" class="viz"></div>
+                    </div>
                   </div>
-                  <div class="col-xs-12 col-md-6">
-                    <div id="datasets-by-subject" class="viz"></div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                      <div id="files" class="viz"></div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                      <div id="files-by-type-count" class="viz"></div>
+                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-12 col-md-6">
-                    <div id="files" class="viz"></div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                      <div id="files-by-type-size" class="viz"></div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                      <div id="dataverses" class="viz"></div>
+                    </div>
                   </div>
-                  <div class="col-xs-12 col-md-6">
-                    <div id="files-by-type-count" class="viz"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-12 col-md-6">
-                    <div id="files-by-type-size" class="viz"></div>
-                  </div>
-                  <div class="col-xs-12 col-md-6">
-                    <div id="dataverses" class="viz"></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-12 col-md-6">
-                    <div id="dataverses-by-subject" class="viz"></div>
-                  </div>
-                  <div class="col-xs-12 col-md-6">
-                    <div id="dataverses-by-category" class="viz"></div>
+                  <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                      <div id="dataverses-by-subject" class="viz"></div>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                      <div id="dataverses-by-category" class="viz"></div>
+                    </div>
                   </div>
                 </div>
               </div>
