@@ -195,12 +195,11 @@ function timeseries(name, config) {
         .color(function(d) {
           return color;
         });
-
+      visualization.render();
       if(config.hasOwnProperty("timeseries." + lcname + ".definition")) {
         var explain = config["timeseries." + lcname + ".definition"];
-        //visualization.footer(config["timeseries." + lcname + ".definition"]);
+        appendExplanation(lcname, explain);
       }
-      visualization.render();
     }
   });
   appendDownloadCSV(lcname, url);
@@ -235,12 +234,11 @@ function dataversesByCategory(config) {
 //            }
 //          }
 //        })
-
+      visualization.render();
       if(config.hasOwnProperty("dataversesbycategory.definition")) {
         var explain = config["dataversesbycategory.definition"];
-        //visualization.footer(config["dataversesbycategory.definition"]);
+        appendExplanation("dataverses-by-category", explain);
       }
-      visualization.render();
     }
   });
   appendDownloadCSV("dataverses-by-category", url);
@@ -276,12 +274,11 @@ function dataversesBySubject(config) {
 //            }
 //          }
 //        })
-
+      visualization.render();
       if(config.hasOwnProperty("dataversesbysubject.definition")) {
         var explain = config["dataversesbysubject.definition"];
-        //visualization.footer(config["dataversesbysubject.definition"]);
+        appendExplanation("dataverses-by-subject", explain);
       }
-      visualization.render();
     }
   });
   appendDownloadCSV("dataverses-by-subject", url);
@@ -317,12 +314,11 @@ function datasetsBySubject(config) {
 //            }
 //          }
 //        })
-
+      visualization.render();
       if(config.hasOwnProperty("datasetsbysubject.definition")) {
         var explain = config["datasetsbysubject.definition"];
-        //visualization.footer(config["datasetsbysubject.definition"]);
+        appendExplanation("datasets-by-subject", explain);
       }
-      visualization.render();
     }
   });
   appendDownloadCSV("datasets-by-subject", url);
@@ -352,11 +348,11 @@ function makeDataCount(metric, config) {
         .color(function(d) {
           return color;
         });
+      visualization.render();
       if(config.hasOwnProperty("makedatacount." + metric + ".definition")) {
         var explain = config["makedatacount." + metric + ".definition"];
-        //visualization.footer(config["makedatacount." + metric + ".definition"]);
+        appendExplanation("makedatacount-" + metric, explain);
       }
-      visualization.render();
     }
   });
   appendDownloadCSV("makedatacount-" + metric, url);
@@ -397,12 +393,11 @@ function multitimeseries(name, config, groupby) {
 //            window.open(dvserver + "/dataset.xhtml?persistentId=" + JSON.stringify(d.d3plus_data[groupby]).replace(/["]+/g,''), target="_blank");
 //          }
 //        })
-
+      visualization.render();
       if(config.hasOwnProperty("multitimeseries." + lcname + ".definition")) {
         var explain = config["multitimeseries." + lcname + ".definition"];
-        //visualization.footer(config["multitimeseries." + lcname + ".definition"]);
+        appendExplanation(lcname, explain);
       }
-      visualization.render();
     }
   });
   appendDownloadCSV(lcname, url);
@@ -447,12 +442,11 @@ function filesByType(config) {
         .legend(false);
 //        .order("count")
 //        .text("contenttype")
-
+      countVisualization.render();
       if(config.hasOwnProperty("filesbytype.definition")) {
         var explain = config["filesbytype.definition"];
-        //countVisualization.footer(config["filesbytype.definition"]);
+        appendExplanation("files-by-type-count", explain);
       }
-      countVisualization.render();
 
       var sizeVisualization =  new d3plus.BarChart()
         .data(data.filter(d=>d.size > 0))
@@ -486,12 +480,11 @@ function filesByType(config) {
                        })
         .legend(false);
 //        .text("contenttype")
-
+      sizeVisualization.render();
       if(config.hasOwnProperty("filesbytype.definition")) {
         var explain = config["filesbytype.definition"];
-        //sizeVisualization.footer(config["filesbytype.definition"]);
+        appendExplanation("files-by-type-size", explain);
       }
-      sizeVisualization.render();
     }
   });
   appendDownloadCSV("files-by-type-count", url);
@@ -546,12 +539,11 @@ function uniqueDownloads(config) {
 //            window.open(dvserver + "/dataset.xhtml?persistentId=" + JSON.stringify(d.pid).replace(/["]+/g,''), target="_blank");
 //          }
 //        })
-
+      visualization.render();
       if(config.hasOwnProperty("uniquedownloads.definition")) {
         var explain = config["uniquedownloads.definition"];
-        //visualization.footer(config["uniquedownloads.definition"]);
+        appendExplanation("uniquedownloads-by-pid", explain);
       }
-      visualization.render();
     }
   });
   appendDownloadCSV("uniquedownloads-by-pid", url);
@@ -615,12 +607,11 @@ function fileDownloads(config) {
 //            }
 //          }
 //        })
-
+      visualization.render();
       if(config.hasOwnProperty("filedownloads.definition")) {
         var explain = config["filedownloads.definition"];
-        //visualization.footer(config["filedownloads.definition"]);
+        appendExplanation("filedownloads-by-id", explain);
       }
-       visualization.render();
     }
   });
   appendDownloadCSV("filedownloads-by-id", url);
@@ -651,10 +642,22 @@ function updateDisplayName(name, config) {
 
 function appendDownloadCSV(id, href) {
   $("#"+id).append($("<a/>").addClass("metrics-download-button").attr("href", href).attr("type", "text/csv")
-    .text("CSV").attr("title", "Download CSV file").prepend('<i class="fa fa-download" aria-hidden="true"></i>&nbsp;'));
+    .text("CSV").attr("title", "Download CSV file")
+    .prepend('<i class="fa fa-download" aria-hidden="true"></i>&nbsp;')
+  );
 }
 
 function appendRedundantDownloadCSV(id, title) {
   $("#"+id).append($("<span/>").addClass("metrics-download-redundant").attr("title", title)
-    .text("CSV").append('&nbsp;').append($("<i/>").attr("aria-hidden", "true").addClass("fa fa-question-circle")));
+    .text("CSV")
+    .append('&nbsp;').append($("<i/>").attr("aria-hidden", "true").addClass("fa fa-question-circle"))
+  );
+}
+
+function appendExplanation(id, explain) {
+  //$("#"+id).after($("<div/>").addClass("viz-explain").text(explain));
+  $("#"+id).after($("<div/>").addClass("viz-explain")
+    .text(explain)
+    .prepend('&nbsp;').prepend($("<i/>").attr("aria-hidden", "true").addClass("fa fa-info-circle"))
+  );
 }

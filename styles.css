@@ -53,6 +53,12 @@ a:hover {
   margin: 3em;
 }
 
+.viz-explain {
+  text-align: center;
+  font-size: 0.8em;
+  padding: 5px;
+}
+
 /* panels/cards containing the graphs */
 .card {
     margin-bottom: 15px;
