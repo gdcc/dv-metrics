@@ -153,7 +153,6 @@ $(document).ready(function() {
       $("#dataverses-by-category").parent().hide();
     }
 
-
   });
 });
 
@@ -171,7 +170,6 @@ function timeseries(name, config) {
     url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
-
       data = data.data;
       var yLabel = "Number of " + nameLabel;
       var visualization = new d3plus.BarChart()
@@ -191,10 +189,11 @@ function timeseries(name, config) {
                            ]
                          ]
                        })
-        //.time("date") // interactive timeline selection
+
         .color(function(d) {
           return color;
         });
+      // Could do optional interactive timeline selection with visualization.time("date");
       visualization.render();
       if(config.hasOwnProperty("timeseries." + lcname + ".definition")) {
         var explain = config["timeseries." + lcname + ".definition"];
@@ -221,19 +220,6 @@ function dataversesByCategory(config) {
         .groupBy("category")
         .sum("count")
         .legend(false);
-//        .color({
-//          value: "count",
-//          heatmap: colors.reverse()
-//        })
-//        .format({
-//          "text": function(text, params) {
-//            if (text === "count") {
-//              return tileLabel;
-//            } else {
-//              return d3plus.string.title(text, params);
-//            }
-//          }
-//        })
       visualization.render();
       if(config.hasOwnProperty("dataversesbycategory.definition")) {
         var explain = config["dataversesbycategory.definition"];
@@ -252,7 +238,6 @@ function dataversesBySubject(config) {
     headers: { Accept: "application/json" },
     success: function(data) {
       data = data.data;
-
       var tileLabel = "Number of " + config.dataverseTerm + "s";
       var visualization = new d3plus.Treemap()
         .data(data)
@@ -261,19 +246,6 @@ function dataversesBySubject(config) {
         .groupBy("subject")
         .sum("count")
         .legend(false);
-//        .color({
-//          value: "count",
-//          heatmap: colors.reverse()
-//        })
-//        .format({
-//          "text": function(text, params) {
-//            if (text === "count") {
-//              return tileLabel;
-//            } else {
-//              return d3plus.string.title(text, params);
-//            }
-//          }
-//        })
       visualization.render();
       if(config.hasOwnProperty("dataversesbysubject.definition")) {
         var explain = config["dataversesbysubject.definition"];
@@ -292,7 +264,6 @@ function datasetsBySubject(config) {
     headers: { Accept: "application/json" },
     success: function(data) {
       data = data.data;
-
       var tileLabel = "Number of " + config.Term;
       var visualization = new d3plus.Treemap()
         .data(data)
@@ -301,19 +272,6 @@ function datasetsBySubject(config) {
         .groupBy("subject")
         .sum("count")
         .legend(false);
-//        .color({
-//          value: "count",
-//          heatmap: colors.reverse()
-//        })
-//        .format({
-//          "text": function(text, params) {
-//            if (text === "count") {
-//              return tileLabel;
-//            } else {
-//              return d3plus.string.title(text, params);
-//            }
-//          }
-//        })
       visualization.render();
       if(config.hasOwnProperty("datasetsbysubject.definition")) {
         var explain = config["datasetsbysubject.definition"];
@@ -333,7 +291,6 @@ function makeDataCount(metric, config) {
     url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
-
       data = data.data;
       var yLabel = "Number of " + metric;
       var visualization = new d3plus.BarChart()
@@ -387,12 +344,6 @@ function multitimeseries(name, config, groupby) {
         })
         .xConfig({labelOffset: 1, labelRotation: true})
         .legend(false);
-//        .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
-//        .mouse({
-//          "click": function(d) {
-//            window.open(dvserver + "/dataset.xhtml?persistentId=" + JSON.stringify(d.d3plus_data[groupby]).replace(/["]+/g,''), target="_blank");
-//          }
-//        })
       visualization.render();
       if(config.hasOwnProperty("multitimeseries." + lcname + ".definition")) {
         var explain = config["multitimeseries." + lcname + ".definition"];
@@ -413,19 +364,9 @@ function filesByType(config) {
       data = data.data;
       var countVisualization = new d3plus.BarChart()
         .data(data)
-//        .dev(true)
         .title("File Count By Type")
         .select("#files-by-type-count")
         .groupBy("contenttype")
-//        .y({
-//          "value": "count",
-//          "label": "File Count",
-//          "scale": "linear"
-//        })
-//        .x({
-//          "value": "contenttype",
-//          "label": "Content Type"
-//        })
         .y("count")
         .x("contenttype")
         .xConfig({title: "Content Type"})
@@ -440,8 +381,6 @@ function filesByType(config) {
                          ]
                        })
         .legend(false);
-//        .order("count")
-//        .text("contenttype")
       countVisualization.render();
       if(config.hasOwnProperty("filesbytype.definition")) {
         var explain = config["filesbytype.definition"];
@@ -450,25 +389,15 @@ function filesByType(config) {
 
       var sizeVisualization =  new d3plus.BarChart()
         .data(data.filter(d=>d.size > 0))
-        //.dev(true)
         .title("File Size By Type")
         .select("#files-by-type-size")
         .groupBy("contenttype")
-//        .x({
-//          "value": "contenttype",
-//          "label": "Content Type"
-//        })
-//        .y({
-//          "value": "size",
-//          "label": "Total Size By File Type",
-//          "scale": "log"
-//        })
         .x("contenttype")
         .y("size")
         .xConfig({title: "Content Type"})
         .yConfig({title: "Total Size By File Type"})
         .yConfig ({"scale": "log"})
-        .yConfig({"gridLog": true}) // visual remineder of the log scale
+        .yConfig({"gridLog": true}) // visual reminder of the log scale
         .xSort(function(a,b) { return a["size"] < b["size"];})
         .tooltipConfig({
                          "tbody": [
@@ -479,7 +408,6 @@ function filesByType(config) {
                          ]
                        })
         .legend(false);
-//        .text("contenttype")
       sizeVisualization.render();
       if(config.hasOwnProperty("filesbytype.definition")) {
         var explain = config["filesbytype.definition"];
@@ -517,6 +445,7 @@ function uniqueDownloads(config) {
         .y("count")
         .xConfig({title: xLabel})
         .yConfig({title: "Unique Download Count"})
+        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder without this
         .xSort(function(a,b) { return a["count"] < b["count"];})
         .tooltipConfig({
                          "tbody": [
@@ -530,15 +459,6 @@ function uniqueDownloads(config) {
           window.open(dvserver + "/dataset.xhtml?persistentId=" + d.pid, target="_blank");
         })
         .legend(false);
-//        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
-//        .order("count")
-//        .text("pid")
-//        .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
-//        .mouse({
-//          "click": function(d) {
-//            window.open(dvserver + "/dataset.xhtml?persistentId=" + JSON.stringify(d.pid).replace(/["]+/g,''), target="_blank");
-//          }
-//        })
       visualization.render();
       if(config.hasOwnProperty("uniquedownloads.definition")) {
         var explain = config["uniquedownloads.definition"];
@@ -593,20 +513,8 @@ function fileDownloads(config) {
               window.open(dvserver + "/file.xhtml?persistentId=" + d.pid, target="_blank");
             }
         })
+        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder without this
         .xSort(function(a,b) { return a["count"] < b["count"];});
-//        // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder the without this
-//        .order("count")
-//        .format(function(text){if((typeof text) == 'string') {text = text.replace(/["]+/g,'');} return text;})
-//        .text(xName)
-//        .mouse({
-//          "click": function(d) {
-//            if(!d.hasOwnProperty("pid") || d.pid.length==0) {
-//              window.open(dvserver + "/file.xhtml?fileId=" + JSON.stringify(d.id).replace(/["]+/g,''), target="_blank");
-//            } else {
-//              window.open(dvserver + "/file.xhtml?persistentId=" + JSON.stringify(d.pid).replace(/["]+/g,''), target="_blank");
-//            }
-//          }
-//        })
       visualization.render();
       if(config.hasOwnProperty("filedownloads.definition")) {
         var explain = config["filedownloads.definition"];
@@ -655,7 +563,6 @@ function appendRedundantDownloadCSV(id, title) {
 }
 
 function appendExplanation(id, explain) {
-  //$("#"+id).after($("<div/>").addClass("viz-explain").text(explain));
   $("#"+id).after($("<div/>").addClass("viz-explain")
     .text(explain)
     .prepend('&nbsp;').prepend($("<i/>").attr("aria-hidden", "true").addClass("fa fa-info-circle"))
