@@ -342,7 +342,6 @@ function multitimeseries(name, config, groupby) {
           // assuming groupby has a pid
           window.open(dvserver + "/dataset.xhtml?persistentId=" + d[groupby], target="_blank");
         })
-        .xConfig({labelOffset: 1, labelRotation: true})
         .time("date")
         .timeline(false) // Disable, but could do optional interactive timeline selection via config
         .legend(false);
