@@ -181,6 +181,8 @@ function timeseries(name, config) {
         .y("count")
         .xConfig({title: "Month"})
         .yConfig({title: yLabel})
+        .time("date")
+        .timeline(false) // Disable, but could do optional interactive timeline selection via config
         .tooltipConfig({
                          "tbody": [
                            [
@@ -193,7 +195,6 @@ function timeseries(name, config) {
         .color(function(d) {
           return color;
         });
-      // Could do optional interactive timeline selection with visualization.time("date");
       visualization.render();
       if(config.hasOwnProperty("timeseries." + lcname + ".definition")) {
         var explain = config["timeseries." + lcname + ".definition"];
@@ -325,7 +326,6 @@ function multitimeseries(name, config, groupby) {
     url: url,
     headers: { Accept: "application/json" },
     success: function(data) {
-
       data = data.data;
       var yLabel = "Number of " + name;
       var visualization = new d3plus.StackedArea() // BarChart() works, but StackedArea() or AreaPlot() looks weird
@@ -343,6 +343,8 @@ function multitimeseries(name, config, groupby) {
           window.open(dvserver + "/dataset.xhtml?persistentId=" + d[groupby], target="_blank");
         })
         .xConfig({labelOffset: 1, labelRotation: true})
+        .time("date")
+        .timeline(false) // Disable, but could do optional interactive timeline selection via config
         .legend(false);
       visualization.render();
       if(config.hasOwnProperty("multitimeseries." + lcname + ".definition")) {
