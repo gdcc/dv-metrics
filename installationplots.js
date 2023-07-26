@@ -372,7 +372,7 @@ function filesByType(config) {
         .x("contenttype")
         .xConfig({title: "Content Type"})
         .yConfig({title: "File Count"})
-        .xSort(function(a,b) { return a["count"] < b["count"];})
+        .xSort(function(a,b) { return b["count"] - a["count"];})
         .tooltipConfig({
                          "tbody": [
                            [
@@ -399,7 +399,7 @@ function filesByType(config) {
         .yConfig({title: "Total Size By File Type"})
         .yConfig ({"scale": "log"})
         .yConfig({"gridLog": true}) // visual reminder of the log scale
-        .xSort(function(a,b) { return a["size"] < b["size"];})
+        .xSort(function(a,b) { return b["size"] - a["size"];})
         .tooltipConfig({
                          "tbody": [
                            [
@@ -447,7 +447,7 @@ function uniqueDownloads(config) {
         .xConfig({title: xLabel})
         .yConfig({title: "Unique Download Count"})
         // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder without this
-        .xSort(function(a,b) { return a["count"] < b["count"];})
+        .xSort(function(a,b) { return b["count"] - a["count"];})
         .tooltipConfig({
                          "tbody": [
                            [
@@ -515,7 +515,7 @@ function fileDownloads(config) {
             }
         })
         // The API orders the results (so the slice gets the ones with the most counts), but the graph will reorder without this
-        .xSort(function(a,b) { return a["count"] < b["count"];});
+        .xSort(function(a,b) { return b["count"] - a["count"];});
       visualization.render();
       if(config.hasOwnProperty("filedownloads.definition")) {
         var explain = config["filedownloads.definition"];
