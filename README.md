@@ -5,14 +5,13 @@
 dv-metrics report metrics in a web page
 
 It is an installation-level metrics app (v5.1+) that can show metrics for a Dataverse instance 
-or for any sub-Dataverse within that instance
-
+or for any sub-Dataverse (collection) within that instance. 
 
 This installation-level app leverages enhancements to the Dataverse Metrics API introduced in v5.1 
 to provide more detailed information about a single installation of Dataverse. 
 It adds additional graphs showing the distribution of files by content type, 'Make Data Counts' metrics, 
 and the number of 'unique downloaders' per dataset. 
-All of these metrics can be displayed for the entire repository or for any sub-Dataverse within the repository, 
+All of these metrics can be displayed for the entire repository or for any sub-Dataverse (collection) within the repository, 
 with the selection possible via a tree widget showing the overall structure of the repository, 
 or programmatically by adding a query parameter for the specific sub-Dataverse to the URL for the app. 
 All outputs are also available in comma-separated-value (CSV) format via download buttons associated with each graph. 
@@ -20,6 +19,12 @@ This app does not use any local cache and doesn't require Python or a cron job t
 
 This app report metrics only for published content and hence it does not require any login or Dataverse credentials to access.
 More detail about the Dataverse metrics can be found in the guides: [Metrics API](http://guides.dataverse.org/en/latest/api/metrics.html).
+
+
+Some screenshots examples showning graphs for downloads and content of the repository. 
+
+![Download graphs](examples/DownloadGraphs.png?raw=true "Download graphs")
+![Holdingsgraphs](examples/HoldingsGraphs.png?raw=true "Holdings graphs")
 
 ## Requirements
 
