@@ -11,7 +11,7 @@ This installation-level app leverages enhancements to the Dataverse Metrics API 
 to provide more detailed information about a single installation of Dataverse. 
 It adds additional graphs showing the distribution of files by content type, 'Make Data Counts' metrics, 
 and the number of 'unique downloaders' per dataset. 
-All of these metrics can be displayed for the entire repository or for any sub-Dataverse within the repository, 
+All of these metrics can be displayed for the entire repository or for any sub-Dataverse (collection) within the repository, 
 with the selection possible via a tree widget showing the overall structure of the repository, 
 or programmatically by adding a query parameter for the specific sub-Dataverse to the URL for the app. 
 All outputs are also available in comma-separated-value (CSV) format via download buttons associated with each graph. 
