@@ -5,7 +5,7 @@
 dv-metrics report metrics in a web page
 
 It is an installation-level metrics app (v5.1+) that can show metrics for a Dataverse instance 
-or for any sub-Dataverse within that instance. 
+or for any sub-Dataverse (collection) within that instance. 
 
 This installation-level app leverages enhancements to the Dataverse Metrics API introduced in v5.1 
 to provide more detailed information about a single installation of Dataverse. 
